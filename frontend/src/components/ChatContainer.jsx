@@ -20,13 +20,18 @@ const ChatContainer = () => {
   const messageEndRef = useRef(null);
 
   useEffect(() => {
-    getMessages(selectedUser._id);
+    if (!selectedUser || !selectedUser._id) {
+      console.warn("selectedUser not ready, aborting getMessages");
+      return;
+    }
 
+    getMessages(selectedUser._id);
     subscribeToMessages();
 
     return () => unsubscribeFromMessages();
   }, [
-    selectedUser._id,
+    selectedUser,
+    selectedUser?._id,
     getMessages,
     subscribeToMessages,
     unsubscribeFromMessages,
