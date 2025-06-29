@@ -28,6 +28,12 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
+app.use((err, req, res, next) => {
+    console.error("Global Error Handler:", err.stack);
+    res.status(500).json({ error: "Server Crashed", message: err.message });
+});
+
+
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
@@ -40,3 +46,8 @@ server.listen(PORT, () => {
     console.log("server is running on PORT:" + PORT);
     connectDB();
 });
+
+console.log("📦 Mounted /api/auth");
+console.log("📦 Mounted /api/messages");
+
+

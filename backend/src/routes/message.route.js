@@ -5,13 +5,13 @@ import { getUsersForSidebar, getMessages, sendMessage } from "../controllers/mes
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+    res.status(400).json({ error: "Message ID is required" });
+});
+
 router.get("/users", protectRoute, getUsersForSidebar);
 router.get("/:id", protectRoute, getMessages);
 
 router.post("/send/:id", protectRoute, sendMessage);
-
-router.get("/", (req, res) => {
-    res.status(400).json({ error: "Message ID is required in URL" });
-});
 
 export default router;
